@@ -2,6 +2,10 @@
 // https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
 
 export async function client(endpoint, { body, ...customConfig } = {}) {
+
+
+  
+
   const headers = { 'Content-Type': 'application/json' }
 
   const config = {
@@ -17,10 +21,12 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
     config.body = JSON.stringify(body)
   }
 
+  console.log(body)
+
   let data
   try {
     const response = await window.fetch(endpoint, config)
-    data = await response.json()
+    data = await response.json()        
     if (response.ok) {
       // Return a result object similar to Axios
       return {
@@ -31,7 +37,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
       }
     }
     throw new Error(response.statusText)
-  } catch (err) {
+  } catch (err) {    
     return Promise.reject(err.message ? err.message : data)
   }
 }
